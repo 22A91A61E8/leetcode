@@ -1,17 +1,18 @@
 class Solution:
     def reverseParentheses(self, s: str) -> str:
-        stack=[]
-        
+        st=[]
+        l=''
         for i in s:
-            l=[]
-            if i==')':
-                while stack and stack[-1]!='(':
-                    x=stack.pop()
-                    l.append(x)
-                if stack and stack[-1]=='(':
-                    stack.pop()
-                for i in l:
-                    stack.append(i)
-            else:
-                stack.append(i)
-        return ''.join(stack)
+            if i=='(':
+                st.append(l)
+                l=''
+            elif i.isalpha():
+                l=l+i
+            elif i==')':
+                l=l[::-1]
+                l=st.pop()+l
+        return l
+                
+                
+                
+                
