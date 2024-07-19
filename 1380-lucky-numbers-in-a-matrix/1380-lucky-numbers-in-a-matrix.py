@@ -1,11 +1,17 @@
 class Solution:
     def luckyNumbers (self, matrix: List[List[int]]) -> List[int]:
         l=[]
-        l2=[]
+        c=[]
+        r=[]
         for i in range(len(matrix)):
             l.append(min(matrix[i]))
-        #print(l)
-        t_m=zip(*matrix)
-        mc=[max(col) for col in t_m]
-        l=[num for num in l if num in mc]
-        return l
+        for j in range(len(matrix[0])):
+            maxi=0
+            for i in range(len(matrix)):
+                if matrix[i][j]>maxi:
+                    maxi=matrix[i][j]
+            c.append(maxi)
+        for i in l:
+            if i in c:
+                r.append(i)
+        return r
