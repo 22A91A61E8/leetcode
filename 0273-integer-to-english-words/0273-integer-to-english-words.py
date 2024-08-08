@@ -2,64 +2,35 @@ class Solution:
     def numberToWords(self, num: int) -> str:
         if num == 0:
             return "Zero"
-        ones_map = {
-            1: "One",
-            2: "Two",
-            3: "Three",
-            4: "Four",
-            5: "Five",
-            6: "Six",
-            7: "Seven",
-            8: "Eight",
-            9: "Nine",
-            10: "Ten",
-            11: "Eleven",
-            12: "Twelve",
-            13: "Thirteen",
-            14: "Fourteen",
-            15: "Fifteen",
-            16: "Sixteen",
-            17: "Seventeen",
-            18: "Eighteen",
-            19: "Nineteen",
-        }
-
-        tens_map = {
-            20: "Twenty",
-            30: "Thirty",
-            40: "Forty",
-            50: "Fifty",
-            60: "Sixty",
-            70: "Seventy",
-            80: "Eighty",
-            90: "Ninety",
-        }
-
-        def get_string(n):
-            #123, 120, 102, 012
-            res = []
-            hundreds = n // 100
-            if hundreds:
-                res.append(ones_map[hundreds] + " Hundred")
-            last_2 = n % 100
-            if last_2 >= 20:
-                tens,ones = last_2 // 10, last_2 % 10
-                res.append(tens_map[tens * 10])
-                if ones:
-                    res.append(ones_map[ones])
-            elif last_2:
-                res.append(ones_map[last_2])
-            return " ".join(res)
+        bs = ["Thousand", "Million", "Billion"]
+        r = self.convertString(num % 1000)
+        num //= 1000
         
-        postfix = ["", " Thousand", " Million", " Billion"]
-        i = 0
-        res = []
-        while num:
-            digits = num % 1000
-            s = get_string(digits) #1,000,000
-            if s:
-                res.append(s + postfix[i] )
-            num = num // 1000 #111, 222
-            i = i + 1
-        res.reverse()
-        return " ".join(res)
+        for i in range(len(bs)):
+            if num % 1000 > 0:
+                r = self.convertString(num % 1000) + " " + bs[i] + " " + r
+            num //= 1000
+        
+        return r.strip()
+    
+    def convertString(self, n: int) -> str:
+        d = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
+        tn = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
+        tns = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
+        
+        r = ""
+        
+        if n > 99:
+            r += d[n // 100] + " Hundred "
+        n %= 100
+        
+        if 10 <= n < 20:
+            r += tn[n - 10] + " "
+        else:
+            if n >= 20:
+                r += tns[n // 10] + " "
+            n %= 10
+            if n > 0:
+                r += d[n] + " "
+        
+        return r.strip()
