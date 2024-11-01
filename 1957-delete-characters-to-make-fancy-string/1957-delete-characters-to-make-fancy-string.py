@@ -5,5 +5,9 @@ class Solution:
         for i in range(n-2):
             if s[i]==s[i+1]==s[i+2]:
                 s[i]="_"
-        return "".join(i for i in s if i!="_")
-       
+                
+        l=[]
+        for i in s:
+            if i!="_":
+                l.append(i)
+        return "".join(l)
