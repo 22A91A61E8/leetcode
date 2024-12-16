@@ -1,7 +1,8 @@
 class Solution:
     def getFinalState(self, nums: List[int], k: int, multiplier: int) -> List[int]:
-        for _ in range(k):
+        while(k):
             r=min(nums)
-            i=nums.index(r)
-            nums[i]=r*multiplier
+            p=nums.index(r)
+            nums[p]=r*multiplier
+            k=k-1
         return nums
